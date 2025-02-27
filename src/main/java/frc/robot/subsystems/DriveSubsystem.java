@@ -54,6 +54,9 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+    
+      
+    
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
 
@@ -75,6 +78,8 @@ public class DriveSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("left back speed", m_rearLeft.driveWheelVelocity()); 
       SmartDashboard.putNumber("right front speed", m_frontRight.driveWheelVelocity()); 
       SmartDashboard.putNumber("right back speed", m_rearRight.driveWheelVelocity()); 
+      SmartDashboard.putNumber("Robot Heading", getHeading());
+      SmartDashboard.putString("robot location", getPose().getTranslation().toString());
   }
 
   /**
@@ -85,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
-
+  
   /**
    * Resets the odometry to the specified pose.
    *

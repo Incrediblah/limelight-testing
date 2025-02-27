@@ -4,6 +4,8 @@
 
 package frc.robot.commands.limelightCommands;
 
+import org.opencv.features2d.FastFeatureDetector;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,25 +28,28 @@ public class autoAlignXandY extends Command {
   private double measuredValuey; 
   private double strafeSpeedx; 
   private double driveSpeedy; 
-  private double tolerancex;
-  private double tolerancey;
 
-  private int targetValuex; 
-  private int targetValuey; 
+  private double targetValuex; 
+  private double targetValuey; 
+
+  private double xTolreance; 
+  private double yTolerance; 
 
   /** Creates a new autoAlignX. */
-  public autoAlignXandY(DriveSubsystem drive, VisionSubsystem vision, int pipeline, boolean end, int targetOffsetx, int targetOffsety,int tolerancex,double tolerancey) {
+  public autoAlignXandY(DriveSubsystem drive, VisionSubsystem vision, int pipeline, boolean end, double targetOffsetx, double targetOffsety,double tolerancex,double tolerancey) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.DRIVE_SUBSYSTEM = drive; 
     this.VISION_SUBSYSTEM = vision; 
 
-    this.strafePIDx = new PIDController(0.01, 0, 0); 
-    this.strafePIDy = new PIDController(0.05, 0, 0); 
+    this.strafePIDx = new PIDController(0.015, 0, 0); 
+    this.strafePIDy = new PIDController(0.075, 0, 0); 
     this.endCommand = end; 
     this.setPipelineNumber = pipeline; 
     this.targetValuex = targetOffsetx; 
     this.targetValuey = targetOffsety; 
+    this.xTolreance = tolerancex; 
+    this.yTolerance = tolerancey; 
     addRequirements(VISION_SUBSYSTEM);
     addRequirements(DRIVE_SUBSYSTEM);
 
@@ -56,6 +61,8 @@ public class autoAlignXandY extends Command {
     strafePIDx.reset();
     strafePIDy.reset();
     VISION_SUBSYSTEM.setPipeline(setPipelineNumber);
+    DRIVE_SUBSYSTEM.resetOdometry(DRIVE_SUBSYSTEM.getPose());
+    endCommand = false; 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -66,29 +73,29 @@ public class autoAlignXandY extends Command {
       measuredValuey = VISION_SUBSYSTEM.getTy(); 
       measuredValuex = VISION_SUBSYSTEM.getTx(); 
 
-      if (Math.abs(Math.abs(measuredValuex) - Math.abs(targetValuex)) <= tolerancex & (Math.abs(measuredValuey) - Math.abs(targetValuey)) <= tolerancey) { 
-
+      if (Math.abs(Math.abs(measuredValuex) - Math.abs(targetValuex)) <= xTolreance && (Math.abs(measuredValuey) - Math.abs(targetValuey)) <= yTolerance) { 
         strafeSpeedx = 0; 
         driveSpeedy = 0; 
+        endCommand = true; 
       } 
-      else{
 
+      else{
       strafeSpeedx = strafePIDx.calculate(measuredValuex,targetValuex);
       driveSpeedy = strafePIDy.calculate(measuredValuey,targetValuey);
       }
      
 
-      if(strafeSpeedx > 0.1){
-        strafeSpeedx = 0.1; 
-      }else if(strafeSpeedx < -0.1){
-        strafeSpeedx = -0.1; 
+      if(strafeSpeedx > 0.25){
+        strafeSpeedx = 0.25; 
+      }else if(strafeSpeedx < -0.25){
+        strafeSpeedx = -0.25; 
       }
 
       
-      if(driveSpeedy>0.1){ 
-        driveSpeedy = 0.1; 
-      }else if(driveSpeedy<-0.1){
-        driveSpeedy = -0.1; 
+      if(driveSpeedy>0.25){ 
+        driveSpeedy = 0.25; 
+      }else if(driveSpeedy<-0.25){
+        driveSpeedy = -0.25; 
       }
       
     }else{
@@ -106,6 +113,7 @@ public class autoAlignXandY extends Command {
 
     strafeSpeedx = 0; 
     driveSpeedy = 0; 
+    DRIVE_SUBSYSTEM.resetOdometry(DRIVE_SUBSYSTEM.getPose());
   }
 
   // Returns true when the command should end.

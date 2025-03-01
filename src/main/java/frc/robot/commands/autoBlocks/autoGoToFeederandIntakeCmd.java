@@ -6,32 +6,32 @@ package frc.robot.commands.autoBlocks;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CoralIntakeConstants;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.commands.MoveArmToSetpoint;
-import frc.robot.commands.MoveElevatorToSetpoint;
+import frc.robot.commands.CoralIntakeCmd;
+import frc.robot.commands.OdometryCmd;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CoralIntakeSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class autoPositionArmUp extends SequentialCommandGroup {
-  /** Creates a new autoPositionArrm. */
-  public autoPositionArmUp(ArmSubsystem arm, ElevatorSubsystem elevator, double armSetPoint, double elevatorSetPoint ) {
+public class autoGoToFeederandIntakeCmd extends SequentialCommandGroup {
+  /** Creates a new autoGoToFeederStation. */
+  public autoGoToFeederandIntakeCmd(DriveSubsystem drive,ArmSubsystem arm, ElevatorSubsystem elevator, CoralIntakeSubsystem intake, String path) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-      // new ParallelCommandGroup(
-      //   new MoveArmToSetpoint(arm, armSetPoint), 
-      //   new MoveElevatorToSetpoint(elevator, elevatorSetPoint)
-      // ); 
-
     addCommands(
-      new MoveArmToSetpoint(arm, armSetPoint),
-      new MoveElevatorToSetpoint(elevator, elevatorSetPoint) 
+      new ParallelCommandGroup(
+        new OdometryCmd(drive, path),
+        new autoPositionArmDown(arm, elevator, ArmConstants.kLevel1, ElevatorConstants.kLevel1)
+      ),
+       new CoralIntakeCmd(intake, CoralIntakeConstants.kCoralIntakeSpeed)
     );
-
-
   }
+  
 }

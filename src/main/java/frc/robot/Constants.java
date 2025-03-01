@@ -93,10 +93,10 @@ public final class Constants {
 
     public static final double kFeederStation = 0;
     public static final double kLevel1 = 0;
-    public static final double kLevel2 = 0;
-    public static final double kLevel3 = 0;
-    public static final double kLevel4 = 88; //84
-    public static final double ktest = 28;
+    public static final double kLevel2 =  9;
+    public static final double kLevel3 = 8;
+    public static final double kLevel4 = 90; //84
+    public static final double ktest = 0;
 
   }
 
@@ -104,11 +104,11 @@ public final class Constants {
 
     public static final int kArmCanId = 55;
 
-    public static final double kFeederStation = -20;
+    public static final double kFeederStation = -6;
     public static final double kLevel1 = 0;
-    public static final double kLevel2 = 60;
-    public static final double kLevel3 = 80;
-    public static final double kLevel4 = 76; //80
+    public static final double kLevel2 = 0;
+    public static final double kLevel3 = 87;
+    public static final double kLevel4 = 82; //80
     public static final double ktest = 0; //-10
 
   }
@@ -118,6 +118,7 @@ public final class Constants {
     public static final int kCoralIntakeCanId = 60;
 
     public static final double kCoralIntakeSpeed = 1;
+    public static final double kCoralOutakeSpeed = -1;
 
   }
 

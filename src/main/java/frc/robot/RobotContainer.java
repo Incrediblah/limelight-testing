@@ -10,12 +10,8 @@ import frc.robot.Constants.DriverControllerConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorControllerConstants;
 import frc.robot.commands.CoralIntakeCmd;
-import frc.robot.commands.ReadyUpCmd;
 import frc.robot.commands.autoBlocks.autoPositionArmDown;
 import frc.robot.commands.autoBlocks.autoPositionArmUp;
-import frc.robot.commands.limelightCommands.autoAlignX;
-import frc.robot.commands.limelightCommands.autoAlignXandY;
-import frc.robot.commands.limelightCommands.autoAlignY;
 import frc.robot.commands.MoveArmToSetpoint;
 import frc.robot.commands.MoveElevatorToSetpoint;
 import frc.robot.commands.OdometryCmd;
@@ -27,6 +23,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -115,129 +112,7 @@ public class RobotContainer {
     m_operatorController.a().onTrue(
       new autoPositionArmDown(s_ArmSubsystem, s_ElevatorSubsystem, ArmConstants.kFeederStation, ElevatorConstants.kLevel1)
     ); 
-
-    // m_operatorController.a().onTrue(
-
-    // new ReadyUpCmd(s_ElevatorSubsystem,ElevatorConstants.kFeederStation, s_ArmSubsystem,  ArmConstants.kFeederStation)
-
-
-    //   // new SequentialCommandGroup(
-    //   //   new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kFeederStation),
-    //   //   new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kFeederStation)
-    //   // )
-
-    // );
-
-    m_operatorController.y().onTrue(
-
-    new ReadyUpCmd(s_ElevatorSubsystem,ElevatorConstants.kFeederStation, s_ArmSubsystem,  ArmConstants.kLevel3)
-
-
-
-
-      // new SequentialCommandGroup(
-      //   new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kFeederStation),
-      //   new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel3)
-      // )
-
-    );
-
-    m_operatorController.b().onTrue(
-
-    new ReadyUpCmd(s_ElevatorSubsystem,ElevatorConstants.kLevel2, s_ArmSubsystem, ArmConstants.kLevel2)
-
-
-     
-
-      // new SequentialCommandGroup(
-      //   new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel2),
-      //   new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel2)
-      // )
-
-    );
-
-    m_operatorController.rightBumper().onTrue(
-
-
-
-    new ReadyUpCmd(s_ElevatorSubsystem,ElevatorConstants.kFeederStation, s_ArmSubsystem, ArmConstants.kLevel1)
-
-
-
-
-      // new SequentialCommandGroup(
-      //   new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kFeederStation),
-      //   new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel1)
-      // )
-
-    );
-
-    m_operatorController.leftBumper().onTrue(
-
-    new ReadyUpCmd(s_ElevatorSubsystem,ElevatorConstants.ktest, s_ArmSubsystem, ArmConstants.ktest)
-
-
-      // new SequentialCommandGroup(
-      //   new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.ktest),
-      //   new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.ktest)
-      // )
-
-    );
-
-
-
-    // m_driverController.a().onTrue(
-    //   new autoAlignX(s_driveSubsystem, s_VisionSubsystem, 0, false, 0, 5) 
-    // ); 
-
-    // m_driverController.a().onFalse(
-    //   new autoAlignX(s_driveSubsystem, s_VisionSubsystem, 0, true, 0, 0)
-    // ); 
-
-    m_driverController.y().onTrue(
-      new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, false, 0, -10, 5, 0.5)
-    );
-
-    m_driverController.y().onFalse(
-      new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, true, 0, 0, 0, 0)
-    );
-    // m_driverController.a().onTrue(
-    //   new OdometryCmd(s_driveSubsystem)
-    // );
-
-    m_driverController.a().onTrue( 
-      new SequentialCommandGroup(   
-        new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, false, 0, 1.6, 1.5, 0.5), 
-        // .andThen(
-        new OdometryCmd(s_driveSubsystem, "right")
-      // new OdometryCmd(s_driveSubsystem)
-    ))
-
-    ;
-
-    m_driverController.a().onFalse(
-      new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, true, 21, 6.5, 0, 0)
-       
-    );
-
-    
-    
-    m_driverController.b().onTrue(
-      new SequentialCommandGroup(
-        new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, false, 0, 1.6, 1.5, 0.5), 
-        new OdometryCmd(s_driveSubsystem, "left")
-      )
-    ); 
-
-    m_driverController.b().onFalse(
-      new autoAlignXandY(s_driveSubsystem, s_VisionSubsystem, 0, true, 0, 0, 0, 0)
-    );
-  }
-
- 
-
-  ;
-
+  } 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
